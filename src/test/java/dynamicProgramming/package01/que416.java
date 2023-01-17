@@ -9,10 +9,30 @@ package dynamicProgramming.package01;
  */
 public class que416 {
 
+
+    // 01背包
+    // 一维滚动dp数组
+    public boolean canPartition(int[] nums) {
+        int sum = 0;
+        for (int num : nums) {
+            sum += num;
+        }
+        if (sum % 2 != 0){
+            return false;
+        }
+        int[] dp = new int[sum/2+1];
+        for (int i = 0; i < nums.length; i++) {
+            for(int j = sum/2;j >= nums[i];j--){
+                dp[j] = Math.max(dp[j],dp[j-nums[i]] + nums[i]);
+            }
+        }
+        return dp[sum/2] == sum/2;
+    }
+
     // 二维dp
     // dp[i][j]：使用0-i的nums元素，能否正好装满重量为j的背包
     // 总重量为sum/2，nums[i]为重量，价值为true or false
-    public boolean canPartition(int[] nums) {
+    public boolean canPartition1(int[] nums) {
         int sum = 0;
         for (int num : nums) {
             sum += num;
