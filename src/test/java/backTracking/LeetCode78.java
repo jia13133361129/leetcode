@@ -21,21 +21,23 @@ public class LeetCode78 {
 
     List<List<Integer>> res = new ArrayList<>();
     List<Integer> path = new ArrayList<>();
-    public List<List<Integer>> subsets(int[] nums) {
+    public List<List<Integer>> subsetsWithDup(int[] nums) {
+        Arrays.sort(nums);
         backTracking(nums,0);
         return res;
     }
 
-    public void backTracking(int[] nums,int index){
-        if (index == nums.length){
-            res.add(new ArrayList<>(path));
-            return;
+    public void backTracking(int[] nums,int startIndex){
+        // 没有终止条件
+        res.add(new ArrayList<>(path));
+        // 遍历
+        for (int i = startIndex; i < nums.length; i++) {
+            if (i != startIndex && nums[i] == nums[i-1]) {
+                continue;
+            }
+            path.add(nums[i]);
+            backTracking(nums,i+1);
+            path.remove(path.size()-1);
         }
-        // 选nums[index]
-        path.add(nums[index]);
-        backTracking(nums,index + 1);
-        path.remove(path.size()-1);
-        // 不选nums[index]
-        backTracking(nums,index + 1);
     }
 }

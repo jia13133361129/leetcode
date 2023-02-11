@@ -12,7 +12,7 @@ import java.util.List;
  * Description: 寻找两个正序数组的中位数
  * Version:
  */
-public class LeetCode90 {
+public class LeetCode46 {
 
     @Test
     public void main() {
@@ -21,26 +21,28 @@ public class LeetCode90 {
 
     List<List<Integer>> res = new ArrayList<>();
     List<Integer> path = new ArrayList<>();
-    public List<List<Integer>> subsetsWithDup(int[] nums) {
-        Arrays.sort(nums);
-        backTracking(nums,0);
+    public List<List<Integer>> permute(int[] nums) {
+        // 标记是否被选择
+        boolean[] flag = new boolean[nums.length];
+        backTracking(nums, flag, 0);
         return res;
     }
 
-    public void backTracking(int[] nums,int startIndex){
-        if (startIndex == nums.length){
+    public void backTracking(int[] nums, boolean[] flag, int count){
+        if (count == nums.length){
             res.add(new ArrayList<>(path));
-            return;
         }
-        for (int i = startIndex; i < nums.length; i++) {
-            if (i != startIndex && nums[i] == nums[i-1]) {
+        for (int i = 0; i < nums.length; i++) {
+            if (flag[i]){
                 continue;
             }
             path.add(nums[i]);
-            backTracking(nums,i+1);
+            flag[i] = true;
+            count++;
+            backTracking(nums,flag,count);
+            count--;
+            flag[i] = false;
             path.remove(path.size()-1);
         }
-
-
     }
 }
