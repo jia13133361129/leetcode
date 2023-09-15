@@ -3,6 +3,8 @@ package sort;
 import org.junit.Test;
 
 import java.util.Arrays;
+import java.util.Comparator;
+import java.util.PriorityQueue;
 
 /**
  * @Author: jia
@@ -11,6 +13,8 @@ import java.util.Arrays;
  * Version:
  */
 public class HeapSort {
+
+    PriorityQueue<Integer> priorityQueue = new PriorityQueue<>((o1, o2) -> o1-o2);
 
     // 节点 从 0 开始
     // 下标为 i 的节点的 父节点下标：(i-1)/2 (整数除法)

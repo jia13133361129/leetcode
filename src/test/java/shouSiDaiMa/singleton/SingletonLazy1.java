@@ -14,7 +14,7 @@ public class SingletonLazy1 {
 
     private SingletonLazy1(){}
 
-    public SingletonLazy1 getInstance(){
+    public static SingletonLazy1 getInstance(){
         if (singletonLazy1 == null){
             return new SingletonLazy1();
         }

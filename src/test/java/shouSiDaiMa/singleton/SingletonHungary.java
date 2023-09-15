@@ -15,7 +15,7 @@ public class SingletonHungary {
     //将构造器设置为private禁止通过new进行实例化
     private SingletonHungary(){};
 
-    public SingletonHungary getInstance(){
+    public static SingletonHungary getInstance(){
         return singletonHungary;
     }
 

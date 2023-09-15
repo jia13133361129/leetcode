@@ -8,11 +8,11 @@ package shouSiDaiMa.singleton;
  */
 public class TrySingleton {
 
-    private static TrySingleton trySingleton;
+    private static volatile TrySingleton trySingleton;
 
     private TrySingleton(){}
 
-    public TrySingleton getInstance(){
+    public static TrySingleton getInstance(){
         if (trySingleton == null){
             synchronized (TrySingleton.class){
                 if (trySingleton == null){

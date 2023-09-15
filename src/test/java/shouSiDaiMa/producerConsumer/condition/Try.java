@@ -19,56 +19,50 @@ public class Try {
         ReentrantLock lock = new ReentrantLock();
         Condition notFull = lock.newCondition();
         Condition notEmpty = lock.newCondition();
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                while (true){
-                    try {
-                        lock.lock();
-                        while (list.size() == capacity){  // while 和 if 是不是都可以？
-                            try {
-                                notFull.await();
-                            } catch (InterruptedException e) {
-                                e.printStackTrace();
-                            }
-                        }
-                        list.add(new Object());
-                        System.out.println("producer:" + list.size() + "," + System.currentTimeMillis ());
-                        notEmpty.signal();
-                    }finally {
-                        lock.unlock();
+        new Thread(() -> {
+            while (true){
+                try {
+                    lock.lock();
+                    while (list.size() == capacity){  // while 和 if 是不是都可以？
                         try {
-                            Thread.sleep(100);
+                            notFull.await();
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
                     }
+                    list.add(new Object());
+                    System.out.println("producer:" + list.size() + "," + System.currentTimeMillis ());
+                    notEmpty.signal();
+                }finally {
+                    lock.unlock();
+                    try {
+                        Thread.sleep(100);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         },"producer").start();
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                while (true) {
-                    try {
-                        lock.lock();
-                        while (list.isEmpty()) {
-                            try {
-                                notEmpty.await();
-                            } catch (InterruptedException e) {
-                                e.printStackTrace();
-                            }
-                        }
-                        list.remove(0);
-                        System.out.println("consumer:" + list.size() + "," +  System.currentTimeMillis ());
-                        notFull.signal();
-                    } finally {
-                        lock.unlock();
+        new Thread(() -> {
+            while (true) {
+                try {
+                    lock.lock();
+                    while (list.isEmpty()) {
                         try {
-                            Thread.sleep(200);
+                            notEmpty.await();
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
+                    }
+                    list.remove(0);
+                    System.out.println("consumer:" + list.size() + "," +  System.currentTimeMillis ());
+                    notFull.signal();
+                } finally {
+                    lock.unlock();
+                    try {
+                        Thread.sleep(200);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
                     }
                 }
             }

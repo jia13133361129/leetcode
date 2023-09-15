@@ -16,9 +16,11 @@ public class InOrder {
     public List<Integer> inorderTraversal(TreeNode root) {
         List<Integer> res = new ArrayList<>();
         Stack<TreeNode> stack = new Stack<>();
-
-        while (!stack.isEmpty() || root != null){
-            while (root != null){
+        if (root == null){
+            return res;
+        }
+        while(!stack.isEmpty() || root != null){
+            while(root != null){
                 stack.push(root);
                 root = root.left;
             }

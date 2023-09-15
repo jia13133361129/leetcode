@@ -26,7 +26,7 @@ public class MyBlockingQueue<T>{
     public T take(){
         lock.lock();
         try{
-            while (list.size() == 0){
+            while (list.isEmpty()){
                 System.out.println("队列中暂时还没数据，等待生产数据");
                 notEmpty.await();
             }
